@@ -22,7 +22,7 @@
 	<%
 		String id = request.getParameter("id");
 		//레포지터리 메소드  한개의 product 개체 가져오기
-		ProductRepository pro = new ProductRepository();
+		ProductRepository pro = new ProductRepository().getInstance();
 		Product product = pro.getProductById(id);
 	%>
 	<div class="container">

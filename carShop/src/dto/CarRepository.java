@@ -5,6 +5,11 @@ import java.util.ArrayList;
 public class CarRepository {
 
 	private ArrayList<Car> CarList = new ArrayList<Car>();
+	private static CarRepository instance = new CarRepository();
+	
+	public CarRepository getinstance() {
+		return instance;
+	}
 	
 	
 	public CarRepository() {
@@ -55,5 +60,8 @@ public class CarRepository {
 		
 		return car;
 	}
-	
+	// void 라 리턴타입이 필요없음
+	public void CarListadd(Car car) {
+		CarList.add(car);
+	}
 }

@@ -15,7 +15,7 @@
 <body>
 	<%
 		//저장되어있는 값 객체 생성후 3개 저장되어있는 값 가져오기
-		ProductRepository dao = new ProductRepository();
+		ProductRepository dao = new ProductRepository().getInstance();
 		// productRepostory 안에 있는 phone notebook tablet 저장되어 있는 값을 
 		// productRepostory getAllproducts() 메소드로 모두 호출 한후 그 값을 
 		// listOfProducts의 저장함.

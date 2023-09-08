@@ -12,7 +12,7 @@
 <body>
 	<%
 		String id = request.getParameter("id");
-		CarRepository crt = new CarRepository();
+		CarRepository crt = new CarRepository().getinstance();
 		Car  car = crt.CarbyId(id);
 	%>
 		<img src="../resources/images/<%=id %>.jpg">

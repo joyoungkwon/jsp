@@ -5,6 +5,16 @@ import java.util.ArrayList;
 public class ProductRepository {
 	// Product 클래스를 받는 ArrayList < listOfProducts> 생성
 	private ArrayList<Product> listOfProducts =new ArrayList<Product>();
+	private static ProductRepository instance = new ProductRepository();
+	
+	
+	
+	public static ProductRepository getInstance() {
+		return instance;
+	}
+	
+	
+	
 	public ProductRepository() {
 		
 		Product phone =new Product("P1234","아이폰 14 프로맥스",1600000);
@@ -54,5 +64,9 @@ public class ProductRepository {
 		return productById;
 	}
 	
+	//새로운 클래스 를 리스트에 저장하는 메소드
+	public void addProduct(Product product) {
+		listOfProducts.add(product);
+	}
 	
 }

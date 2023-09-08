@@ -13,7 +13,7 @@
 	
 	<%
 		Car car = new Car();
-		CarRepository dto = new CarRepository();
+		CarRepository dto = new CarRepository().getinstance();
 		ArrayList <Car> carList = dto.CarListAll();
 		
 		for(int i =0; i<carList.size();i++){
@@ -27,5 +27,6 @@
 	
 		}
 	%>
+		<a href="CarMenu.jsp">자동차 등록하기</a>
 </body>
 </html>
