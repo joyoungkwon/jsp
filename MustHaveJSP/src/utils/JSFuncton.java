@@ -1,12 +1,12 @@
 package utils;
-
+// 임포트 
 import javax.servlet.jsp.JspWriter;
 
 public class JSFuncton {
 	// alertLocation 이라는 메소드 만듬 
 	// maseege,url wirter 메세지 알람창을 띄운후 명시한 url으로 이동한다.메서드
 	
-	
+	//
 	public static void alertLocation(String msg, String url, JspWriter out) {
 		try {
 			String script = ""
