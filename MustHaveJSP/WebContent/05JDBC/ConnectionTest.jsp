@@ -1,6 +1,5 @@
-<%@page import="common.JDBConnect2"%>
+<%@page import="common.*"%>
 <%@page import="utils.OutPrint"%>
-<%@page import="common.JDBConnect"%>
 <%@page import="javax.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

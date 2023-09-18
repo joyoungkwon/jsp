@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%--자바 파일 임포트 --%>
-<%@ page import="common.Car" %>
 <%@ page import="java.util.*" %>
+<%@ page import="Membership.*" %>
+<%@ page import="common.*" %>
 <!DOCTYPE html>
 <html>
 <head>

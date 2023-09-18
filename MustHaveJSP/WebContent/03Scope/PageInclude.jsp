@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="common.Person" %>
+    <%@ page import="Membership.*" %>
+<%@ page import="common.*" %>
 <%
 	int pinteger2 = (Integer)(pageContext.getAttribute("pageIntegers"));
 	String pString2 = (String)(pageContext.getAttribute("pageString").toString());

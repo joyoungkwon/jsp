@@ -1,6 +1,7 @@
-<%@page import="common.Person"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="Membership.*" %>
+<%@ page import="common.*" %>
 <!DOCTYPE html>
 <html>
 <head>

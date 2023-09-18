@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="common.*" %> 
+    <%@ page import="Membership.*" %>
+<%@ page import="common.*" %>
 <%
 	// pageContext.set으로 설정
 	// 좌측부터 변수 이름 오른쪽은 변수의 value값 설정
