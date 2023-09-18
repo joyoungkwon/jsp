@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspWriter;
 
 
@@ -55,6 +56,27 @@ public class JDBConnect {
 			System.out.println("2번쨰 연결오류");
 			e.printStackTrace();
 		}
+	}
+	// web.xml에 설정한 값 어플리케이션 내장객체로 이용해서 끌어와서 설정하기.
+	public JDBConnect(ServletContext application) {
+		
+		try {
+			String driver = application.getInitParameter("OracleDriver");
+			Class.forName(driver);
+			
+			
+			String url= application.getInitParameter("OracleURL");
+			String id= application.getInitParameter("OracleId");
+			String pw= application.getInitParameter("OraclePwd");
+			
+			con = DriverManager.getConnection(url,id,pw);
+			
+			System.out.println("어플리케이션 내장객체로 연결성공\n");
+			
+		} catch (Exception e) {
+			System.out.println("어플리케이션 내장객체\t연결오류\n"+e.getMessage()); 
+		}
+		
 	}
 	
 	

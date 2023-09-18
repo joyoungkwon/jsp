@@ -43,6 +43,11 @@
 		JDBConnect2 mySql = new JDBConnect2(driver2,url2,id2,pwd2,out);
 		mySql.close();		
 	%>
+	<h2>JDBC 테스트 3</h2>
+	<%
+		JDBConnect jdbc3 = new JDBConnect(application);
+		jdbc3.close();
+	%>	
 	
 </body>
 
