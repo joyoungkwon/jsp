@@ -3,7 +3,7 @@
 <%@page import="model1.Board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+    <%--쓰인메서드  dao selectView--%>
     <%@ include file="IsLoggedIn.jsp" %>
     <%
 		String num = request.getParameter("num");

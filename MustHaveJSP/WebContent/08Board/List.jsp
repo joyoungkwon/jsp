@@ -5,6 +5,14 @@
 <%@page import="model1.Board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%--맨처음에는 바로밑에 있는 스트립틀립이 실행이 되지않음, 값을 넣고 새로고침 해서
+    	밑에 설정해둔 sercahField sercahWord 값을 받아와 sercahWord 의 값이 있을떄
+    	조건문을걸고 실행하는 메서드. 만약 값이 있을시에 parm이라는 맵 타입 플레임워크에, String타입으로
+    	변수를 설정하고 벨류값을 request.getParmeter로 끌어온 벨류값을 대입시킴.
+    	그리고 total카운트에 selectCount(map) 메서드를 실행.
+    	
+     --%>
     <%
     	BoardDAO dao = new BoardDAO(application);
     	Map<String,Object> param = new HashMap<String,Object>();

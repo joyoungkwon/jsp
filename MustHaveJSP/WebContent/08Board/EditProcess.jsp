@@ -9,6 +9,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%--edit에서 넘긴 값 가지고 dto객체의 세팅함
+	쓰인메서드 UpdateEdit(dto)
+--%>
 <%
 	String num = request.getParameter("num");
 	String title = request.getParameter("title");

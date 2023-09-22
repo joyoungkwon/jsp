@@ -9,6 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<%--쓰인 deletePost(dto) 메서드 --%>
 <%
 	String num = request.getParameter("num");
 	
@@ -22,7 +24,7 @@
 	
 	String sessionId = (String)session.getAttribute("UserId");
 	int delResult =0;
-	
+	// deletePost(dto) 메서드
 	if(sessionId.equals(dto.getId())){
 		dto.setNum(num);
 		delResult = dao.deletePost(dto);

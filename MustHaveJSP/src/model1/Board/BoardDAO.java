@@ -13,20 +13,33 @@ public class BoardDAO extends JDBConnect {
 	public BoardDAO(ServletContext application) {
 		super(application);
 	}
-	
+	// int 리턴 하는 메서드 타입 파라미터 값으로 스트링 키로 object를 찾는 맵이 들어감.
 	public int selectCount(Map< String , Object > map) {
+		// 리턴 시킬 totalcount
 		int totalCount=0;
+		// 세팅할 쿼리구문 = select count(*)form board = 보드라는 테이블에서 행의 갯수를 새는 함수 count(*)
 		String query = "select count(*) from board";
-		
+		// list에 html table 에서 설정한 sercahWord 라는 검색박스에 벨류값이 공백이거나 null 이 아니라면,
 		if(map.get("sercahWord")!=null) {
 			query+=" where " +map.get("sercahField") +" like '%" +map.get("sercahWord")+"%'";
+			//select count(*)form board where sercahField like % sercahWord %;
+			// board 테이블에서 조건이 sercahField 의 like 로 sercahWord에 양옆으로 나오는 문자열을.
+			// count(*)함수로 뽑아내면 행의 갯수를 새게 되고 그 갯수는 6줄이라 하면 6으로 리턴시킨다.(결과값이 하나)
 		}
 		try {
+			// 위에 쿼리를 실행하기위한 정적쿼리문을 생성하고.
 			stmt = con.createStatement();
+			// result의 객체 rs의 qeury실행 결과를 올린다.
 			rs = stmt.executeQuery(query);
+			// 총 있는 행의 갯수를 6줄을 새고 -> 6 이라고 반환 하기 때문에 하나만 읽어도 됌.
+			// 맨처음에 커서 위치가 아무것도 지정해 있지 않기때문에 next로 넘겨 총 행의 갯수를 리턴한,
+			// rs의 값을 읽어들이기위해 커서를 지정하고.
 			rs.next();
+			// 결과값을 샌 6의 값은 int타입으로 반환 시키기 때문에 리턴할 totalCount에 rs.getInt(1)첫번째 
+			// 칼럼값을 가져와 저장시키고.
+			// 게시물의 개수를 총 리턴한다.
 			totalCount = rs.getInt(1);
-			System.out.println("개시물 개수 추가 성공 ");
+			System.out.println("개시물 개수 검색 성공 ");
 			
 		} catch (Exception e) {
 			
@@ -37,15 +50,21 @@ public class BoardDAO extends JDBConnect {
 		return totalCount;
 	}
 	
-	
+	// 리스트 타입으로 리턴할 selectList(이번에도 맵으로 저장되어 있는 값을 리턴할거다.)
 	public List<BoardDTO> selectList(Map<String,Object>map){
+		// BoardDTO를 저장할 목적으로 하는 vector list bbs를 생성하고
 		List<BoardDTO> bbs = new Vector<BoardDTO>();
+		// String qeury 문으로 select * from board = board테이블의 모든 요소를 검색한다.
 		String query = "select * from board";
+		// param에 저장되어 있는 word값이 null 이 아니면 -> 검색하는 박스안에 value가 있다고 하면.
 		if(map.get("sercahWord")!=null) {
 			query+= " where " +map.get("sercahField")+" like '%" +map.get("sercahWord")+"%'";
+			// select *from board where sercahField like % sercahWord % order by num desc;라는 구문을 완성 시키고
+			// sercahWord 박스값의 벨류값이 없다면,select *from board order by num desc;
 		}
-		query += " order by num desc";
+		query += "order by num desc";
 		try {
+			
 			stmt = con.createStatement();
 			rs =stmt.executeQuery(query);
 			while(rs.next()) {
