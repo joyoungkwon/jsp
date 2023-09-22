@@ -15,7 +15,6 @@
 	dto.setTitle(title);
 	dto.setContent(content);
 	
-	//dto.setId((String)session.getAttribute("UserId"));
 	dto.setId(session.getAttribute("UserId").toString());
 	
 	
