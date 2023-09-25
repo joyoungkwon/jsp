@@ -39,6 +39,9 @@
 						out.print("<a class='navbar-brand' href='deleteProduct.jsp'>");
 						out.print("상품삭제");
 						out.print("</a>");
+						out.print("<a class='navbar-brand' href='boardmain.jsp'>");
+						out.print("게시판");
+						out.print("</a>");
 						
 					}
 				%>

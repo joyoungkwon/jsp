@@ -1,3 +1,4 @@
+<%@page import="dao.BoardDAO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.*"%>
@@ -13,6 +14,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 	$(function(){
