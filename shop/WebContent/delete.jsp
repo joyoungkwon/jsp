@@ -17,6 +17,8 @@
 		BoardDTO dto = new BoardDTO();
 		BoardDAO dao = new BoardDAO();
 		
+		//BoardDTO dto = dao.selectView(num);
+		//dto에 막바로 넘버값으로 검색한거대입
 		
 		dto.setNum(num);
 		if(user_id.equals(session.getAttribute("user_id").toString())){
