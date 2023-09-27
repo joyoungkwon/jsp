@@ -24,7 +24,6 @@
 			out.print("<a href='deletemember.jsp'>회원탈퇴</a>");
 			out.print(" ");
 			out.print("<a href='bookmain.jsp'>도서목록보기</a>");
-			
 		}
 		
 	
