@@ -50,23 +50,20 @@ public class BoardDAO extends JDBConnect {
 		return totalCount;
 	}
 	
-	// 리스트 타입으로 리턴할 selectList(이번에도 맵으로 저장되어 있는 값을 리턴할거다.)
 	public List<BoardDTO> selectList(Map<String,Object>map){
-		// BoardDTO를 저장할 목적으로 하는 vector list bbs를 생성하고
 		List<BoardDTO> bbs = new Vector<BoardDTO>();
-		// String qeury 문으로 select * from board = board테이블의 모든 요소를 검색한다.
-		String query = "select * from board";
-		// param에 저장되어 있는 word값이 null 이 아니면 -> 검색하는 박스안에 value가 있다고 하면.
+		String query = "select * from ( select Tb.*, rownum rNum from (select * from board ";
 		if(map.get("sercahWord")!=null) {
-			query+= " where " +map.get("sercahField")+" like '%" +map.get("sercahWord")+"%'";
-			// select *from board where sercahField like % sercahWord % order by num desc;라는 구문을 완성 시키고
-			// sercahWord 박스값의 벨류값이 없다면,select *from board order by num desc;
+			query+= " where " +map.get("sercahField")+" like '%" +map.get("sercahWord")+ "%'";
 		}
-		query += "order by num desc";
+		query += " order by num desc ) Tb ) where rNum between ? and ?";
 		try {
 			
-			stmt = con.createStatement();
-			rs =stmt.executeQuery(query);
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, map.get("start").toString());
+			psmt.setString(2, map.get("end").toString());
+			rs = psmt.executeQuery();
+			
 			while(rs.next()) {
 				BoardDTO dto = new BoardDTO();
 				

@@ -16,9 +16,9 @@
 					<a href="../06Session/Logout.jsp">로그아웃</a>
 				<%}%>
 				&nbsp;&nbsp;&nbsp;
-				<a href="#" >게시판페이징x</a>
+				<a href="../08Board/List.jsp" >게시판페이징x</a>
 				&nbsp;&nbsp;&nbsp;
-				<a href="#" >게시판페이징</a>
+				<a href="../09PagingBoard/List.jsp" >게시판페이징</a>
 			</td>
 		</tr>	
 	</table>

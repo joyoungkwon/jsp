@@ -44,15 +44,15 @@
 	<%--자바스크립트 구문에 함수에 파라미터값이 form인 거에 onsubmit로(트루값이면 로그인프로세스로이동,false면 실행 중지넘어가지않음)
 	true값이면 this가 밑에있는 폼 전체를 넘김. --%>
 	<form action="LoginProcess.jsp" method="post" name="loginFrm" onsubmit="return validateForm(this)">
-		아이디:<input  type="text" name="user_id"><br>
-		비밀번호:<input  type="text" name="user_pw"><br>
+		아이디:<input  type="text" name="user_id" required><br>
+		비밀번호:<input  type="text" name="user_pw" required><br>
 			<!-- 일반적으로 이 submit input태그에 onclick 이벤트를 걸고 위에 스크립트 함수값의 결과값을 가진 this를
 			담아서 보내는것이 일방적 () -->
 			<input type="submit" value="로그인하기"> 
 	</form>
 	<%}else{%>
 	
-		<%=session.getAttribute("UserName") %> 회원님, 로그인하셨습니다<br>
+		${sessionScope.UserName} 회원님, 로그인하셨습니다<br>
 		<a href="Logout.jsp">로그아웃</a>
 		<a href="../08Board/Write.jsp">글쓰기</a>
 		<a href="../08Board/List.jsp">목록보기</a>
