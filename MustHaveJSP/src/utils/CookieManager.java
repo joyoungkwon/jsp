@@ -13,11 +13,11 @@ public class CookieManager {
 	// 쿠키를 만드는메서드 resonpse 쿠키의 이름과 벨류와 지속시간을 파라미터로 받고
 	// 받은 파라미터 값으로 쿠키를 굽는 메서드
 	// 마지막의 자바스크립트 구현한 resonpse 을 이용해 addCooke로 만든 쿠키 를 쿠키의 추가함.
-	public static void makeCookie(HttpServletResponse resonpse , String cName, String cValue , int cTime) {
+	public static void makeCookie(HttpServletResponse response , String cName, String cValue , int cTime) {
 		Cookie cookie = new Cookie(cName,cValue); // 쿠키생성
 		cookie.setPath("/"); // 쿠키 경로 설정
 		cookie.setMaxAge(cTime); // 유지기간 설정
-		resonpse.addCookie(cookie); // 응답객체의 쿠키 추가
+		response.addCookie(cookie); // 응답객체의 쿠키 추가
 	}
 	
 	// 쿠키 이름 가지고 저장 되어있는 같은 값의 이름을 포문을 이용해서 반복해서 비교해서 같은 값이 있을때

@@ -32,14 +32,21 @@
 		dto.setId(user_id);
 		// dto.setPostdate(postdate);
 		
-		int result = dao.insertWrite(dto);
+		// int result = dao.insertWrite(dto);
+		
+		int result =0;
+		
+		//for(int i=1; i<=1000; i++){
+			//dto.setTitle(title+"-"+i);
+			//result = dao.insertWrite(dto);
+		//}
 		
 		if(result==1){
 			JSFuncton.alertLocation("게시물추가성공", "boardmain.jsp", out);
 		}else{
 			JSFuncton.alertBack("게시물추가실패", out);
 		}
-	
+	 
 		dao.close();
 	%>
 </body>

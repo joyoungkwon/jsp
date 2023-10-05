@@ -40,13 +40,16 @@ public class BoardDAO extends JDBConnect{
 	//게시물의 내용 가져오기 (모든내용) 리턴타입이 list 
 	// list는 컬렉션프레임워크에 arrayList, vector linked 의 부모객체
 	// 타입 햇갈리지 않기. 
-	public List<BoardDTO>selectList(){
+	public List<BoardDTO>selectList(int start){
 		List<BoardDTO> dto = new ArrayList<>();
 		
-		String qery="select * from board order by num desc"; //board테이블 모든요소 끌어오기
+		String query="select * from board order by num desc"; //board테이블 모든요소 끌어오기
+		int limit =0;
 		try {
-			stmt = con.createStatement(); //con으로 연결된데이터베이스의 정적쿼리문 생성하기
-			rs=stmt.executeQuery(qery); // 세팅한 qery문으로 정적쿼리문 실행하고 rs객체의 담기.
+			psmt =con.prepareStatement(query);
+			rs = psmt.executeQuery();
+			rs.absolute(start-1);
+			
 			
 			while(rs.next()) { // rs의 다음요소가 없을떄까지도는 무한루프,
 				BoardDTO dto2 = new BoardDTO(); // dto클래스의 하나당 선언해놓은 필드 값에 따라 rs에서 뽑아와서 대입시키기.
@@ -56,10 +59,13 @@ public class BoardDAO extends JDBConnect{
 				dto2.setId(rs.getString(4));
 				dto2.setPostdate(rs.getDate(5));
 				dto2.setVisitcount(rs.getInt(6)); // 마지막필드 6번까지 대입시키기.
+				dto.add(dto2);
+				limit++;
 				
-				dto.add(dto2);// 대입시킨후 하나의 6개의 필드값이생성된 BoardDTO 클래스를 
-				// list 에 추가시키기. while문 rs.next메서드를 이용해 다음요소가 있으면 다시 반복과,
-				// 세팅 추가를 반복 (없을때까지)
+				if(limit==20) {
+					break;
+				}
+				
 			}
 		
 			System.out.println("게시물 검색성공");
@@ -183,5 +189,6 @@ public class BoardDAO extends JDBConnect{
 		}
 		
 	}
+	
 	
 }
