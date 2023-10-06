@@ -9,8 +9,8 @@
 </head>
 <body>
 	<%
-		//세션 은  로그인유지
-		//히힣자동로그인
+		//세션은 로그인유지
+		//히힣 자동 로그인
 		CookieManager.makeCookie(response, "ELCookie", "너를위해구었지", 10);
 		String cookie = CookieManager.readCookie(request, "ELCookie");
 	%>
