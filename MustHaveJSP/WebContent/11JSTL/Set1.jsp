@@ -1,3 +1,5 @@
+<%@page import="common.Car"%>
+<%@page import="common.Person"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -24,5 +26,25 @@
 		<li> 오늘날짜 : ${today} </li>
 	</ul>
 
+	<h4>자바빈주 생성 1- 생성자 사용</h4>
+	<c:set var="personVar1" value='<%=new Person("박문수",50) %>' scope="request"/>
+	
+	<ul>
+		<li>이름 : ${requestScope.personVar1.name}</li>
+		<li>나이 : ${requestScope.personVar1.age}</li>
+	</ul>
+	
+	
+	<h4>자바빈주 생성 2- 타겟 프로포티 사용</h4>
+	<c:set var="carVal1" value='<%=new Car()%>' scope="request"/>
+	<c:set target="${carVal1}" property="carName" value="티코"/>
+	<c:set target="${carVal1}" property="carPrice" value="500000"/>
+	<c:set target="${carVal1}" property="carColor" value="빨강"/>
+	<ul>
+		<li>자동차 이름 : ${carVal1.carName}</li>
+		<li>자동차 가격 : ${carVal1.carPrice}</li>
+		<li>자동차 색상 : ${carVal1.carColor}</li>
+	</ul>
+	
 </body>
 </html>

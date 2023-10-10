@@ -2,6 +2,7 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import common.JDBConnect;
 import dto.BoardDTO;
@@ -15,15 +16,17 @@ public class BoardDAO extends JDBConnect{
 	}
 	
 	// 게시물의 개수 새기
-	public int selectCount() {
+	public int selectCount(Map<String, Object> map) {
 		int result=0;
 		
-		String qery ="select count(*) from board";
-		
+		String query ="select count(*) from board";
+		if(map != null) {
+			query+= " where "+map.get("sel") + " like '%" + map.get("text") + "%'";
+		}
 		try {
 			// 결과가 하나밖에 나오지않기때문에 next 쓰기.
 			stmt =  con.createStatement();
-			rs = stmt.executeQuery(qery);
+			rs = stmt.executeQuery(query);
 			rs.next(); // 게시물의 커서값을(한칸) 지정하기 (while)문없이 뽑아오기
 			result =rs.getInt(1); // result의 한자리수를 뽑아오기 행 열을 int타입으로 하기때문에
 			// int 타입 변수하나 필요
@@ -40,10 +43,14 @@ public class BoardDAO extends JDBConnect{
 	//게시물의 내용 가져오기 (모든내용) 리턴타입이 list 
 	// list는 컬렉션프레임워크에 arrayList, vector linked 의 부모객체
 	// 타입 햇갈리지 않기. 
-	public List<BoardDTO>selectList(int start){
+	public List<BoardDTO>selectList(int start ,Map<String,Object> map){
 		List<BoardDTO> dto = new ArrayList<>();
 		
-		String query="select * from board order by num desc"; //board테이블 모든요소 끌어오기
+		String query="select * from board"; //board테이블 모든요소 끌어오기
+		if(map != null) {
+			query+= " where " + map.get("sel") + " like '%" + map.get("text")+ "%'";
+		}
+		query += " order by num desc";
 		int limit =0;
 		try {
 			psmt =con.prepareStatement(query);

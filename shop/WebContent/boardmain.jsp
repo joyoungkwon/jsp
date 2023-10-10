@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="common.BoardPage"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.BoardDTO"%>
@@ -5,6 +7,8 @@
 <%@page import="dao.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +18,7 @@
 <%
 	BoardDAO dao = new BoardDAO();//db연결
 	BoardDTO dto = new BoardDTO();
-	int totalCount = dao.selectCount();
+	
 	
 	
 	// 웹파일에 내가 설정해놓은 게시물 출력갯수 
@@ -22,7 +26,6 @@
 	// 웹파일에 내가 설정해놓은 게시물 목록 블록 출력갯수
 	int block_count = Integer.parseInt(application.getInitParameter("BLOCK_COUNT"));
 	// 전체 페이지 갯수
-	int toatalpage = (int)Math.ceil((double)totalCount/posts_page);
 	
 	int pageNum =1; 
 	// 초기값 세팅
@@ -34,8 +37,13 @@
 	// 끝값 지정하고
 	
 	// 수정한 메서드 파라미터값으로 넘기기
-	List<BoardDTO> boardLists = dao.selectList(start); 
+	Map<String,Object> searchMap = (Map)session.getAttribute("searchMap");
+	
+	List<BoardDTO> boardLists = dao.selectList(start, searchMap); 
+	int totalCount = dao.selectCount(searchMap);
+	int toatalpage = (int)Math.ceil((double)totalCount/posts_page);
 	dao.close();// db연결 닫기.
+	
 	
 %>
 </head>
@@ -47,7 +55,7 @@
 			<h1 class="display-3">게시판</h1>
 		</div>
 	</div>
-	
+	<form action="serchprocess.jsp" method="post">
 	<div class="container">
 		<table border="1" width="90%">
 			<tr align="center">
@@ -63,7 +71,7 @@
 			
 			%>
 			
-			 	<p>해당게시물이 없습니다.</p>
+			 	<p> 해당게시물이 없습니다.</p> 
 			
 			<%
 			}else{
@@ -91,10 +99,29 @@
 				
 			}
 			%>
+			<%-- <c:set var="boardli" value="<%=boardLists %>" scope="request"/>
+			<tr align="center">
+				<td>${boardli[0].num}</td>
+				<td>${boardli[0].title}</td>
+				<td>${boardli[0].id}</td>
+				<td>${boardli[0].visitcount}</td>
+				<td>${boardli[0].postdate}</td>
+			</tr> --%>
 			
 			<tr align="center">
 				<td colspan="5">
-					<%=BoardPage.paginStr(posts_page, block_count, pageNum, toatalpage)%>
+					<%=BoardPage.paginStr(posts_page, block_count, pageNum, toatalpage)%> 
+				</td>
+			</tr>
+			
+			<tr align="center">
+				<td colspan="5">
+					<select name="sel" class="txt">
+						<option value="id">아이디</option>
+						<option value="title">제목</option>
+					</select>
+					<input name="text" type="text">
+					<input  type="submit" class="btn btn-primary" value="검색">
 				</td>
 			</tr>
 		</table>
@@ -103,5 +130,6 @@
 		<button type="button" onclick="location.href='Write.jsp';">글쓰기</button>
 		</div>	
 	</div>
+	</form>
 </body>
 </html>
