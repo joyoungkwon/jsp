@@ -17,10 +17,10 @@ public class StudentDAO extends MysqlCon {
 		List<StudentDTO> studentList = new ArrayList<StudentDTO>();
 		
 		String query = "select * from 시험";
-		if(grade != null && grade != "") {
-			
+		if(grade != null && grade != "") { // grade가 null 값이 아니면서 동시에 빈 문자열도 아닐때.(값이있을때)
 			query += " where 학점 = '" + grade + "'";
 		}
+		//(빈문자열일땐 select * from 시험 을 검색 한 결과를 rs에 담)
 		
 			
 		 try {

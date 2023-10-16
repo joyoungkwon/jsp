@@ -4,7 +4,11 @@
 <%@page import="java.time.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%!
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+
 	String greeting = "쇼핑몰 방문을 환영합니다";
 	String tagline = "자바 쇼핑몰에 어서오세요";
 %>
@@ -55,7 +59,11 @@
 			<h3>
 				<%=tagline%>
 			</h3>
-			<h3 id="clock"></h3>
+			<c:set var="today" value="<%=new Date()%>"/>
+			<fmt:formatDate value="${today}" type="both" pattern="yyyy-MM-dd hh:mm:ss" />
+			<%
+				response.setIntHeader("Refresh", 1);
+			%>
 		</div>	
 	</div>
 	<%@ include file="footer.jsp" %>

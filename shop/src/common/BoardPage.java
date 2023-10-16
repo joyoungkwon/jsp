@@ -6,7 +6,7 @@ public class BoardPage {
 
 		// pageTemp 의 결과는 1 11 21 31 밖에못옴 block_count 10개 소수점을 int로 바꿔버려서
 		// 0.8.0.9도 모두 0으로 리턴됌
-		int pageTemp = (((pageNum - 1) / block_count) * block_count) + 1;
+		int pageTemp = (((pageNum - 1) / block_count) * block_count) + 1; // 내가현제 머물고있는페이지
 
 		paginStr += "<a href='boardmain.jsp?pageNum=1'>[처음으로]</a>";
 		paginStr += "&nbsp;";

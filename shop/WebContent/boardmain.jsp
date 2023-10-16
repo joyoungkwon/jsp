@@ -16,6 +16,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 <%
+
+	
 	BoardDAO dao = new BoardDAO();//db연결
 	BoardDTO dto = new BoardDTO();
 	
@@ -42,12 +44,17 @@
 	List<BoardDTO> boardLists = dao.selectList(start, searchMap); 
 	int totalCount = dao.selectCount(searchMap);
 	int toatalpage = (int)Math.ceil((double)totalCount/posts_page);
+	
+	int pageTemp = (((pageNum-1)/block_count)*block_count)+1; // 현재 내가 머물고 있는 페이지
+	
+	
 	dao.close();// db연결 닫기.
 	
 	
 %>
 </head>
 <body>
+<c:url value="boardmain.jsp" var="url"/>
 <%@ include file="menu.jsp" %>
 <%@ include file="loginCheak.jsp" %>
 	<div class="jumbotron">
@@ -55,6 +62,7 @@
 			<h1 class="display-3">게시판</h1>
 		</div>
 	</div>
+	
 	<form action="serchprocess.jsp" method="post">
 	<div class="container">
 		<table border="1" width="90%">
@@ -66,7 +74,7 @@
 				<td width="15%">작성일</td>
 			</tr>
 			<%--boardLists에 결과 요소가 없을시. --%>
-			<%
+			<%-- <%
 			if(boardLists.isEmpty()){
 			
 			%>
@@ -76,41 +84,62 @@
 			<%
 			}else{
 				
-				int virtualNumber =0; // 가상번호
-				int CountNum =0; //?
+				 int virtualNumber =0; // 가상번호
+				int CountNum =0; //? */
 				
 				
-				for(BoardDTO bto : boardLists){
+				 for(BoardDTO bto : boardLists){
 					
-					virtualNumber = totalCount -((pageNum-1)*toatalpage)+CountNum--;
+					virtualNumber = totalCount -((pageNum-1)*toatalpage)+CountNum--; 
 			
-			%>
-			<tr align="center">
+			%> --%>
+			<%-- <tr align="center">
 				<td><%=virtualNumber %></td>
 					<td><a href ="view.jsp?num=<%=bto.getNum()%>"><%=bto.getTitle() %></a></td>
 				<td><%=bto.getId() %></td>
 				<td><%=bto.getVisitcount() %></td>
 				<td><%=bto.getPostdate() %></td>
 				
-			</tr>
-			<%
+			</tr> --%>
+			
+			<c:forEach var="bordli" items="<%=boardLists%>">
+				<tr>
+					<td>${bordli.num}</td>
+					<td><a href="view.jsp?num=${bordli.num}">${bordli.title}</a></td>
+					<td>${bordli.id}</td>
+					<td>${bordli.visitcount}</td>
+					<td>${bordli.postdate}</td>
+				</tr>
+			</c:forEach>
+			<%-- <%
 			
 			 }
 				
 			}
-			%>
-			<%-- <c:set var="boardli" value="<%=boardLists %>" scope="request"/>
-			<tr align="center">
-				<td>${boardli[0].num}</td>
-				<td>${boardli[0].title}</td>
-				<td>${boardli[0].id}</td>
-				<td>${boardli[0].visitcount}</td>
-				<td>${boardli[0].postdate}</td>
-			</tr> --%>
+			%> --%>
+			
+			
 			
 			<tr align="center">
-				<td colspan="5">
+				<%-- <td colspan="5">
 					<%=BoardPage.paginStr(posts_page, block_count, pageNum, toatalpage)%> 
+				</td> --%>
+				<td colspan="5">
+					<c:set var="pageTemp" value="<%=pageTemp%>"/>
+					<c:forEach begin="1" end="<%=block_count%>" var="i">
+						<c:choose>
+							<c:when test="${i eq pageTemp}">
+								<a href="${url}?pageNum=1" style="color: red;">[처음으로]</a>
+							</c:when>
+							<c:otherwise>
+									<a href="${url}?pageNum=${i}">[${i}]</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:set var="pageNum2" value="<%=pageNum%>"/>
+						<c:if test="${$pageTemp!= 1}">
+							<a href="${url}?pageNum=${pageNum2+1}"style="color: red;">[다음]</a>
+						</c:if>
 				</td>
 			</tr>
 			
