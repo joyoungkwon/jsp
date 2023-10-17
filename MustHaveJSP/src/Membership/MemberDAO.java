@@ -5,6 +5,11 @@ import common.*;
 public class MemberDAO extends JDBConnect {
 	
 	
+	
+	public MemberDAO() {
+		super();
+	}
+
 	// drv , url ,id,pw 파라미터로 입력한대로 세팅하는 생성자
 	public MemberDAO(String drv,String url , String id ,String pw) {
 		super(drv,url,id,pw);
