@@ -21,6 +21,7 @@
 </head>
 <body>
 	<h2>파일 첨부형 비회원제 게시판</h2>
+	
 	<form method="get">
 		<table border="1" width="90%">
 			<tr>
@@ -34,6 +35,7 @@
 			</tr>
 		</table>
 	</form>
+	
 	<table border="1" width="90%">
 		<tr>
 			<th width="10%">번호</th>

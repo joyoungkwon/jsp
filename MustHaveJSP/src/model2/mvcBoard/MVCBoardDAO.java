@@ -84,78 +84,129 @@ public class MVCBoardDAO extends JDBConnect {
 		return bbs;
 	}
 
+	
+	public int insertWrite(MVCBoardDTO dto) {
+		int result = 0;
+		try {
+
+			String query = " insert into mvcboard(idx,name,title,content,ofile,sfile,pass)"
+					+ "values(seq_board_num.NEXTVAL,?,?,?,?,?,?)";
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, dto.getName());
+			psmt.setString(2, dto.getTitle());
+			psmt.setString(3, dto.getContent());
+			psmt.setString(4, dto.getOfile());
+			psmt.setString(5, dto.getSfile());
+			psmt.setString(6, dto.getPass());
+			
+			result = psmt.executeUpdate();
+
+			System.out.println("게시물 추가 성공");
+
+		} catch (Exception e) {
+			System.out.println("게시물 추가 실패" + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	
+	public MVCBoardDTO selectView(String idx) {
+		MVCBoardDTO dto = new MVCBoardDTO();
+
+		String query = "select *from mvcboard where idx=?";
+				
+
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, idx);
+
+			rs = psmt.executeQuery();
+			
+			System.out.println("성공");
+
+			if (rs.next()) {
+				dto.setIdx(rs.getString(1));
+				dto.setName(rs.getString(2));
+				dto.setTitle(rs.getString(3));
+				dto.setContent(rs.getString(4));
+				dto.setPostdate(rs.getDate(5));
+				dto.setOfile(rs.getString(6));
+				dto.setSfile(rs.getString(7));
+				dto.setDowncount(rs.getInt(8));
+				dto.setPass(rs.getString(9));
+				dto.setVisitcount(rs.getInt(10));
+			}
+
+		} catch (Exception e) {
+			System.out.println("실패" + e.getMessage());
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
+	
+	
+	public void updateVisitCount(String idx) {
+
+		String qeury = "update mvcboard SET visitcount=visitcount+1 where idx=?";
+
+		try {
+			psmt = con.prepareStatement(qeury);
+			psmt.setString(1, idx);
+
+			rs = psmt.executeQuery();
+
+			System.out.println("게시물\t조회\t증가성공");
+		} catch (Exception e) {
+			System.out.println("게시물 조회 증가실패");
+		}
+	}
+	
+	public void downCountPlus(String idx) {
+		
+		String qeury = "update mvcboard SET downcount=downcount+1 where idx=?";
+		
+		try {
+			psmt = con.prepareStatement(qeury);
+			psmt.setString(1, idx);
+			
+			rs = psmt.executeQuery();
+			
+			System.out.println("첨부파일\t다운\t증가성공");
+		} catch (Exception e) {
+			System.out.println("게시물\t조회\t증가실패");
+		}
+	}
+	
+	
+
 	/*
-	 * public int insertWrite(MVCBoardDTO dto) { int result =0; try {
+	 * public int UpdateEdit(MVCBoardDTO dto) { int result = 0; String sql =
+	 * "update mvcboard set title=?,content=? where idx=?";
 	 * 
-	 * String query
-	 * =" insert into mvcboard(num,title,content,id,visitcount) values(seq_board_num.NEXTVAL,?,?,?,0)"
-	 * ; psmt = con.prepareStatement(query); psmt.setString(1, dto.getTitle());
-	 * psmt.setString(2, dto.getContent()); result = psmt.executeUpdate();
-	 * 
-	 * System.out.println("게시물 추가 성공");
-	 * 
-	 * } catch (Exception e) { System.out.println("게시물 추가 실패"+e.getMessage());
-	 * e.printStackTrace(); }
-	 * 
-	 * return result; } public MVCBoardDTO selectView(String num) { MVCBoardDTO dto
-	 * = new MVCBoardDTO();
-	 * 
-	 * String query= "select B.*,M.name" + " from member M" +
-	 * " inner join mvcboard B " + "on M.id=B.id" + " where idx=?";
-	 * 
-	 * try { psmt = con.prepareStatement(query); psmt.setString(1, num);
-	 * 
-	 * rs = psmt.executeQuery();
-	 * 
-	 * System.out.println("성공");
-	 * 
-	 * if(rs.next()) { dto.setTitle(rs.getString(2));
-	 * dto.setContent(rs.getString(3)); dto.setPostdate(rs.getDate(5));
-	 * dto.setVisitcount(rs.getInt(6)); dto.setName(rs.getString(7)); }
-	 * 
-	 * } catch (Exception e) { System.out.println("실패"+e.getMessage());
-	 * e.printStackTrace(); } return dto; }
-	 * 
-	 * 
-	 * public void updateVisitCount(String num) {
-	 * 
-	 * 
-	 * 
-	 * String qeury="update mvcboard SET visitcount=visitcount+1 where idx=?";
-	 * 
-	 * 
-	 * try { psmt = con.prepareStatement(qeury); psmt.setString(1, num);
-	 * 
-	 * rs = psmt.executeQuery();
-	 * 
-	 * 
-	 * System.out.println("게시물\t조회\t증가성공"); } catch (Exception e) {
-	 * System.out.println("게시물 조회 증가실패"); } }
-	 * 
-	 * public int UpdateEdit(MVCBoardDTO dto) { int result =0; String sql
-	 * ="update mvcboard set title=?,content=? where idx=?";
-	 * 
-	 * try { psmt =con.prepareStatement(sql);
+	 * try { psmt = con.prepareStatement(sql);
 	 * 
 	 * psmt.setString(1, dto.getTitle()); psmt.setString(2, dto.getContent());
 	 * 
 	 * result = psmt.executeUpdate();
 	 * 
 	 * System.out.println("게시물 수정 성공"); } catch (Exception e) {
-	 * System.out.println("게시물 수정 실패 \n"+e.getMessage()); e.printStackTrace(); }
+	 * System.out.println("게시물 수정 실패 \n" + e.getMessage()); e.printStackTrace(); }
 	 * return result;
 	 * 
 	 * }
 	 * 
 	 * 
 	 * 
-	 * public int deletePost(MVCBoardDTO dto) { int result =0; String qery
-	 * ="delete from mvcboard where idx=?"; try { psmt =con.prepareStatement(qery);
+	 * public int deletePost(MVCBoardDTO dto) { int result = 0; String qery =
+	 * "delete from mvcboard where idx=?"; try { psmt = con.prepareStatement(qery);
 	 * 
-	 * result =psmt.executeUpdate(); System.out.println("삭제성공"); }catch (Exception
-	 * e) { System.out.println("삭제실패\n"+e.getMessage()); e.printStackTrace(); }
+	 * result = psmt.executeUpdate(); System.out.println("삭제성공"); } catch (Exception
+	 * e) { System.out.println("삭제실패\n" + e.getMessage()); e.printStackTrace(); }
 	 * return result; }
-	 * 
 	 */
+	 
 
 }
