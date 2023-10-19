@@ -84,7 +84,6 @@ public class MVCBoardDAO extends JDBConnect {
 		return bbs;
 	}
 
-	
 	public int insertWrite(MVCBoardDTO dto) {
 		int result = 0;
 		try {
@@ -98,7 +97,7 @@ public class MVCBoardDAO extends JDBConnect {
 			psmt.setString(4, dto.getOfile());
 			psmt.setString(5, dto.getSfile());
 			psmt.setString(6, dto.getPass());
-			
+
 			result = psmt.executeUpdate();
 
 			System.out.println("게시물 추가 성공");
@@ -111,19 +110,17 @@ public class MVCBoardDAO extends JDBConnect {
 		return result;
 	}
 
-	
 	public MVCBoardDTO selectView(String idx) {
 		MVCBoardDTO dto = new MVCBoardDTO();
 
 		String query = "select *from mvcboard where idx=?";
-				
 
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, idx);
 
 			rs = psmt.executeQuery();
-			
+
 			System.out.println("성공");
 
 			if (rs.next()) {
@@ -145,9 +142,7 @@ public class MVCBoardDAO extends JDBConnect {
 		}
 		return dto;
 	}
-	
-	
-	
+
 	public void updateVisitCount(String idx) {
 
 		String qeury = "update mvcboard SET visitcount=visitcount+1 where idx=?";
@@ -163,50 +158,112 @@ public class MVCBoardDAO extends JDBConnect {
 			System.out.println("게시물 조회 증가실패");
 		}
 	}
-	
+
 	public void downCountPlus(String idx) {
-		
+
 		String qeury = "update mvcboard SET downcount=downcount+1 where idx=?";
-		
+
 		try {
 			psmt = con.prepareStatement(qeury);
 			psmt.setString(1, idx);
-			
+
 			rs = psmt.executeQuery();
-			
+
 			System.out.println("첨부파일\t다운\t증가성공");
 		} catch (Exception e) {
 			System.out.println("게시물\t조회\t증가실패");
 		}
 	}
-	
-	
 
-	/*
-	 * public int UpdateEdit(MVCBoardDTO dto) { int result = 0; String sql =
-	 * "update mvcboard set title=?,content=? where idx=?";
-	 * 
-	 * try { psmt = con.prepareStatement(sql);
-	 * 
-	 * psmt.setString(1, dto.getTitle()); psmt.setString(2, dto.getContent());
-	 * 
-	 * result = psmt.executeUpdate();
-	 * 
-	 * System.out.println("게시물 수정 성공"); } catch (Exception e) {
-	 * System.out.println("게시물 수정 실패 \n" + e.getMessage()); e.printStackTrace(); }
-	 * return result;
-	 * 
-	 * }
-	 * 
-	 * 
-	 * 
-	 * public int deletePost(MVCBoardDTO dto) { int result = 0; String qery =
-	 * "delete from mvcboard where idx=?"; try { psmt = con.prepareStatement(qery);
-	 * 
-	 * result = psmt.executeUpdate(); System.out.println("삭제성공"); } catch (Exception
-	 * e) { System.out.println("삭제실패\n" + e.getMessage()); e.printStackTrace(); }
-	 * return result; }
-	 */
-	 
+	public int UpdateEdit(String idx , String title , String contnet ) {
+		int result = 0;
+		String sql = "update mvcboard set title=?,content=? where idx=?";
 
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, title);
+			psmt.setString(2, title);
+			psmt.setString(3, idx);
+			
+			result = psmt.executeUpdate();
+
+			System.out.println("게시물 수정 성공");
+		} catch (Exception e) {
+			System.out.println("게시물 수정 실패 \n" + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+	//게시물 번호로 삭제
+	public int deletePost(String idx) {
+		int result = 0;
+		String qery = "delete from mvcboard where idx=?";
+		try {
+			
+			psmt = con.prepareStatement(qery);
+			psmt.setString(1, idx);
+			result = psmt.executeUpdate();
+			
+			System.out.println("deletePost()성공");
+			
+		} catch (Exception e) {
+			System.out.println("deletePost()에러\n" + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public boolean confirmPassword(String pass, String idx) {
+		
+		boolean isCorr =true;
+		
+		try {
+			String qeury ="select count(*) from mvcboard where pass=? and idx=?";
+			
+			psmt = con.prepareStatement(qeury);
+			
+			psmt.setString(1, pass);
+			psmt.setString(2, idx);
+			rs = psmt.executeQuery();
+			
+			rs.next();
+			if(rs.getInt(1)==0) {
+				isCorr=false;
+			}
+			System.out.println("confirmPassword()정상작동");
+			
+		} catch (Exception e) {
+			
+			System.out.println("confirmPassword()오류" +e.getMessage());
+			e.printStackTrace();
+			isCorr=false;
+		}
+		return isCorr;
+	}
+	
+	public int updatePost(MVCBoardDTO dto) {
+		int result = 0;
+		
+		try {
+			String query ="update mvcboard SET title=?,name=?,content=?,ofile=?,sfile=? where idx=? and pass=?";
+			
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, dto.getTitle());
+			psmt.setString(2, dto.getName());
+			psmt.setString(3, dto.getContent());
+			psmt.setString(4, dto.getOfile());
+			psmt.setString(5, dto.getSfile());
+			psmt.setString(6, dto.getIdx());
+			psmt.setString(7, dto.getPass());
+			
+			result = psmt.executeUpdate();
+			
+			System.out.println("updatePost()정상처리");
+			
+		}catch (Exception e) {System.out.println("updatePost()오류"+e.getMessage()); e.printStackTrace();}
+		
+		return result;
+	}
+	
 }

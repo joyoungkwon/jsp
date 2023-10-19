@@ -7,53 +7,72 @@ import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspWriter;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 
 import fileupload.FileUtil;
 import utils.JSFuncton;
 
-public class WriteController extends HttpServlet {
+
+
+@WebServlet("/mvcboard/edit.do")
+public class EditController extends HttpServlet {
 	
-	 JspWriter out ;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/14MVCBoard/Write.jsp").forward(request, response);
+		String idx = request.getParameter("idx");
+		MVCBoardDAO dao = new MVCBoardDAO();
+		MVCBoardDTO dto = dao.selectView(idx);
+		request.setAttribute("dto", dto);
+		
+		request.getRequestDispatcher("/14MVCBoard/Edit.jsp").forward(request, response);
 		
 	}
-	
-	
-	@Override
+			
+	@Override		
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		
 		String saveDirectory = request.getServletContext().getRealPath("/Uploads");
+		
 		ServletContext application = getServletContext();
-		
-		
 		int maxPostSize = Integer.parseInt(application.getInitParameter("maxPostSize"));
 		
 		MultipartRequest mr = FileUtil.uploadFile(request, saveDirectory, maxPostSize);
 		
+		
 		if(mr==null) {
-			JSFuncton.alertLocation(response, "파일용량을 벗어남", "../mvcboard/write.do");
+			JSFuncton.alertBack(response, "파일용량초과");
 			return;
 		}
 		
-		MVCBoardDTO dto = new MVCBoardDTO();
-		dto.setName(mr.getParameter("name"));
-		dto.setTitle(mr.getParameter("title"));
-		dto.setContent(mr.getParameter("content"));
-		dto.setPass(mr.getParameter("pass"));
+		String idx = mr.getParameter("idx");
+		String prevOfile = mr.getParameter("prevOfile");
+		String prevSfile = mr.getParameter("prevSfile");
 		
+		String name = mr.getParameter("name");
+		String title = mr.getParameter("title");
+		String content = mr.getParameter("content");
+		
+		HttpSession session = request.getSession();
+		
+		String pass = (String)session.getAttribute("pass");
+		
+		MVCBoardDTO dto = new MVCBoardDTO();
+		
+		dto.setIdx(idx);
+		dto.setName(name);
+		dto.setTitle(title);
+		dto.setContent(content);
+		dto.setPass(pass);
 		
 		String fileName = mr.getFilesystemName("ofile");
 		
@@ -72,19 +91,32 @@ public class WriteController extends HttpServlet {
 			dto.setOfile(fileName);
 			dto.setSfile(newFileName);
 			
-		}
-		MVCBoardDAO dao = new MVCBoardDAO();
-		
-		int result = dao.insertWrite(dto);
-		
-		if(result ==1) {
-			response.sendRedirect("../mvcboard/list.do");
+			FileUtil.deleteFile(request, "/Uploads", prevSfile);
+			
 		}else {
-			response.sendRedirect("../mvcboard/write.do");
+			dto.setOfile(prevOfile);
+			dto.setSfile(prevSfile);
 		}
 		
+		MVCBoardDAO dao = new MVCBoardDAO();
+		int result = dao.updatePost(dto);
+		dao.close();
 		
+		if(result ==1 ) {
+			session.removeAttribute("pass");
+			response.sendRedirect("../mvcboard/view.do?idx="+ idx);
+		}else {
+			JSFuncton.alertLocation(response, "비밀번호를 다시 확인하세요", "../mvcboard/view.do?idx="+idx);
+		}
 		
 	}
+	
+	
+	
+		
+	
+	
+		
+	
 	
 }

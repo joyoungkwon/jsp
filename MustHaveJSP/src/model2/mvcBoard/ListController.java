@@ -53,15 +53,19 @@ public class ListController extends HttpServlet {
 		map.put("end", end);
 
 		List<MVCBoardDTO> boardList = dao.selectList(map);
+		
 		dao.close();
 		
 		String pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, "../mvcboard/list.do");
+		
+		
 		map.put("pagingImg", pagingImg);
 		map.put("totalCount", totalCount);
 		map.put("pageSize", pageSize);
 		map.put("pageNum", pageNum);
 		// 세션값으로 list타입을 설정하고 
 		// 세션값으로 map값 전체를 설정해버림
+		
 		request.setAttribute("boardList", boardList);
 		request.setAttribute("map", map);
 		

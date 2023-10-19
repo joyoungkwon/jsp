@@ -9,25 +9,29 @@
 </head>
 <body>
 	
-	<h2>비회원제 파일 첨부형 비회원제 게시판 - 글쓰기</h2>
-	<form action="../mvcboard/write.do" enctype="multipart/form-data" method="post" name="writeFrm">
+	<h2>비회원제 파일 첨부형 비회원제 게시판 - 수정하기</h2>
+	<form action="../mvcboard/edit.do" enctype="multipart/form-data" method="post" name="writeFrm">
+	
+	<input type="hidden" name="idx" value="${dto.idx}"> 
+	<input type="hidden" name="prevOfile" value="${dto.ofile}"> 
+	<input type="hidden" name="prevSfile" value="${dto.sfile}"> 
 		<table border="1" width="90%">
 			<tr>
 				<td>작성자</td>
 				<td>
-					<input type="text" name="name" style="width: 150px;" required>
+					<input type="text" name="name" style="width: 150px;" value="${dto.name}" required>
 				</td>
 			</tr>
 			<tr>
 				<td>제목</td>
 				<td>
-					<input type="text" name="title" style="width: 90%;" required>
+					<input type="text" name="title" style="width: 90%;"value="${dto.title}" required>
 				</td>
 			</tr>
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea  name="content" style="width: 90% ; height: 100px;" required></textarea>
+					<textarea name="content" style="width: 90% ; height: 100px;"required>${dto.content}</textarea>
 				</td>
 			</tr>
 			<tr>
@@ -36,12 +40,7 @@
 					<input type="file" name="ofile" style="width: 90%; height: 100px;">
 				</td>
 			</tr>
-			<tr>
-				<td>비밀번호</td>
-				<td>
-					<input type="password" name="pass" style="width: 100px" required>
-				</td>
-			</tr>
+			
 			<tr>
 				<td colspan="2" align="center">
 					<button type="submit">작성완료</button>

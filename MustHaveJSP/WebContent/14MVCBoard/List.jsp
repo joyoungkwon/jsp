@@ -75,7 +75,7 @@
 			</c:otherwise>
 		</c:choose>
 	</table>
-	
+	<%--이전페이지 --%>
 	<table border="1" width="90%">
 		<tr align="center">
 			<td id="a">

@@ -46,14 +46,17 @@ public class FileUtil {
 			
 			String client = req.getHeader("User-Agent"); // 사용자에 따른 브라우저 정보를 끌어옴
 			
-			if(client.indexOf("WOW64")== -1){
-				ofileName = new String(ofileName.getBytes("utf-8"),"150=8859-1");
+				if(client.indexOf("WOW64")== -1){
+					
+					ofileName = new String(ofileName.getBytes("UTF-8"),"ISO-8859-1");
 				
-			}else{
-				ofileName = new String (ofileName.getBytes("KSC5601"),"ISO-8859-1");
-			}
-			
+				}else{
+					
+					ofileName = new String (ofileName.getBytes("KSC5601"),"ISO-8859-1");
+				
+				}
 			resp.reset();
+			
 			resp.setContentType("application/octet-stream");
 			
 			resp.setHeader("Content-Disposition", "attachment; filename=\""+ofileName+"\"");
@@ -68,14 +71,28 @@ public class FileUtil {
 			int readBuffer =0;
 			
 			while((readBuffer = iStream.read(b))>0){
+				
 				outStream.write(b,0,readBuffer);
 			}
 			iStream.close();
 			outStream.close();
 			
-			
 		} catch (Exception e) {System.out.println("파일 다운로드중 예외 발생 "+e.getMessage());e.printStackTrace();}
 		
 		
 	}
+	public static void deleteFile(HttpServletRequest request , String directory, String fileName) {
+		
+		String sdirectory = request.getServletContext().getRealPath(directory);
+		File file = new File(sdirectory+File.separator+fileName);
+		
+		System.out.println(file);
+		
+		
+		if(file.exists()) {
+			file.delete();
+		}
+		
+	}
+	
 }
