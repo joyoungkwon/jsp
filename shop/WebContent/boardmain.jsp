@@ -42,8 +42,10 @@
 	Map<String,Object> searchMap = (Map)session.getAttribute("searchMap");
 	
 	List<BoardDTO> boardLists = dao.selectList(start, searchMap); 
+	
 	int totalCount = dao.selectCount(searchMap);
-	int toatalpage = (int)Math.ceil((double)totalCount/posts_page);
+	
+	int toatalpage = (int)Math.ceil((double)totalCount/posts_page); //게시물전체페이지
 	
 	int pageTemp = (((pageNum-1)/block_count)*block_count)+1; // 현재 내가 머물고 있는 페이지
 	
