@@ -10,8 +10,8 @@
 <%!
 	String greeting = "쇼핑몰 방문을 환영합니다";
 	String tagline = "자바 쇼핑몰에 어서오세요";
-	
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +58,6 @@
 				<%=tagline%>
 			</h3>
 			<h3 id="clock"></h3>
-			
 		</div>	
 	</div>
 	<%@ include file="footer.jsp" %>

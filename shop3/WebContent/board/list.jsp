@@ -16,12 +16,19 @@ int total_page = ((Integer) request.getAttribute("total_page")).intValue();
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+<script type="text/javascript">
+	function checkForm() {
+		if(${(user_id==null)}){
+			alert("로그인 해주세요");
+			return false;
+		}
+		location.href="./BoardWriteForm.do?id=${user_id}";
+	}
 
+</script>
 </head>
 <body>
-
 	<jsp:include page="/menu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
@@ -34,33 +41,66 @@ int total_page = ((Integer) request.getAttribute("total_page")).intValue();
 				<span class="badge badge-success">전체${total_record}건</span>
 			</div>
 			<div style="padding-top: 50px">
-				<table class="table table-striped" border="1">
+				<table class="table table-striped" border="1" >
 
-					<tr align="center">
-						<td>번호</td>
-						<td>아이디</td>
-						<td>이름</td>
-						<td>제목</td>
-						<td>내용</td>
-						<td>날짜</td>
-						<td>방문자수</td>
-						<td>IP</td>
+					<tr align="center" >
+						<th>번호</th>
+						<th>아이디</th>
+						<th>이름</th>
+						<th>제목</th>
+						<th>내용</th>
+						<th>날짜</th>
+						<th>방문자수</th>
+						<th>IP</th>
 					</tr>
 					<c:set var="list" value="${boardlist}" />
 					<c:forEach var="boardlist" items="${list}">
 						<tr align="center">
-							<th>${boardlist.num}</th>
-							<th>${boardlist.id}</th>
-							<th>${boardlist.name}</th>
-							<th><a
-								href="./BoardViewAction.do?num=${boardlist.num}&pageNum=${pageNum}">${boardlist.subject}</a></th>
-							<th>${boardlist.content}</th>
-							<th>${boardlist.regist_day}</th>
-							<th>${boardlist.hit}</th>
-							<th>${boardlist.ip}</th>
+							<td>${boardlist.num}</td>
+							<td>${boardlist.id}</td>
+							<td>${boardlist.name}</td>
+							<td><a
+								href="./BoardViewAction.do?num=${boardlist.num}&pageNum=${pageNum}">${boardlist.subject}</a></td>
+							<td>${boardlist.content}</td>
+							<td>${boardlist.regist_day}</td>
+							<td>${boardlist.hit}</td>
+							<td>${boardlist.ip}</td>
 						</tr>
 					</c:forEach>
 				</table>
+			</div>
+			<div align="center">
+				<c:set var="pageNum" value="${pageNum}" />
+				<c:forEach var="i" begin="1" end="${total_page}">
+					<a href="./BoardListAction.do?pageNum=${i}"> <c:choose>
+							<c:when test="${pageNum==i}">
+								<font color="red"><b>[${i}]</b></font>
+							</c:when>
+							<c:otherwise>
+								<font color="blue"><b>[${i}]</b></font>
+							</c:otherwise>
+						</c:choose>
+					</a>
+				</c:forEach>
+			</div>
+			<div align="left">
+				<table>
+					<tr>
+						<td width="100%" align="left">&nbsp;&nbsp;
+						<select name="items" class="txt">
+							<option value="subject">제목검색</option>
+							<option value="content">내용검색</option>
+							<option value="name">이름검색</option>
+						</select>
+						<input name="text" type="text">
+						<input type="submit" id="btnAdd" class="btn btn-primary" value="검색">
+						</td>
+						<td>
+							<a href="#" onclick="checkForm(); return false;" class="btn btn-primary">글쓰기</a>
+						</td>
+					</tr>
+				</table>
+			
 			</div>
 		</form>
 	</div>

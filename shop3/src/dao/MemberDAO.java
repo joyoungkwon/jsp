@@ -87,5 +87,4 @@ public class MemberDAO extends JDBConnect {
 		return result;
 	}
 	
-	
 }

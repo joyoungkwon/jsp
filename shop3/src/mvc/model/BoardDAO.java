@@ -1,6 +1,7 @@
 package mvc.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import mvc.database.DBConnection;
 
@@ -93,5 +94,118 @@ public class BoardDAO extends DBConnection{
 		}
 		
 		return null;
+	}
+	
+	public void insertWrite(BoardDTO dto) {
+		String sql ="insert into board values(null,?,?,?,?,?,?,?)";
+		
+		try {
+			
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getName());
+			psmt.setString(3, dto.getSubject());
+			psmt.setString(4, dto.getContent());
+			psmt.setString(5, dto.getRegist_day());
+			psmt.setInt(6, dto.getHit());
+			psmt.setString(7, dto.getIp());
+			
+			psmt.executeUpdate();
+			
+			System.out.println("insertWrite()게시물 추가 성공");
+			
+			
+		} catch (Exception e) {
+			System.out.println("insertWrite()게시물 추가 실패" + e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	public  BoardDTO selectView(String num) {
+//		BoardDTO dto =null;
+		BoardDTO dto = new BoardDTO();
+		String sql ="select * from board where num=?";
+		try {
+			
+			UpdateHit(num);
+			
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, num);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				dto.setNum(rs.getInt(1));
+				dto.setId(rs.getString(2));
+				dto.setName(rs.getString(3));
+				dto.setSubject(rs.getString(4));
+				dto.setContent(rs.getString(5));
+				dto.setRegist_day(rs.getString(6));
+				dto.setHit(rs.getInt(7));
+				dto.setIp(rs.getString(8));
+			}
+			return dto;
+			
+			
+		} catch (Exception e) {
+			System.out.println("selectView()상세보기 실패"+ e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public void  UpdateHit(String num) {
+		
+		String  sql = "update board set hit = hit+1 where num=?";
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			
+			psmt.setString(1, num);
+			psmt.executeUpdate();
+			
+			System.out.println("UpdateHit()방문자수 증가성공");
+
+			
+		} catch (Exception e) {
+			System.out.println("UpdateHit()방문자수 증가실패"+e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	public void Editboard(BoardDTO dto) {
+		String sql ="update board set subject=?,content=? where num=?";
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, dto.getSubject());
+			psmt.setString(2, dto.getContent());
+			psmt.setInt(3, dto.getNum());
+			
+			psmt.executeUpdate();
+			
+			System.out.println("Editboard()게시물 수정 성공");
+			
+		} catch (Exception e) {
+			System.out.println("Editboard()게시물 수정 실패"+e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	public void deletboard(BoardDTO dto) {
+		String sql ="delete from board where num=?";
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, dto.getNum());
+			
+			psmt.executeUpdate();
+			System.out.println("deletboard()메서드 실행성공 삭제성공");
+			
+		} catch (Exception e) {
+			System.out.println("deletboard()메서드 실행성공 삭제실패"+e.getMessage());
+			e.printStackTrace();
+		}
+		
 	}
 }
