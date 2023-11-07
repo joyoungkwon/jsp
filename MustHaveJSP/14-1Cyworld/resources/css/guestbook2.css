@@ -1,0 +1,26 @@
+@charset "UTF-8";
+.writerimg{
+	width: 100px;
+	height: 10vh;
+}
+.book{
+	width: inherit;
+	display: flex;
+	border: 1px solid black;
+	flex-direction :column;
+	
+}
+.half{
+	display: flex;
+	flex-direction: row;
+}
+.half .half-1{
+	width: 100%;
+	
+}
+.half .half-2{
+	width: 70%;
+}
+.book + .book{
+	margin-top: 20px;
+}

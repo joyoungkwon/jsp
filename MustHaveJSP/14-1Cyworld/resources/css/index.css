@@ -1,0 +1,70 @@
+@charset "UTF-8";
+* {
+	padding:0;
+	margin:0;
+}
+
+body{
+	box-sizing:border-box;
+	height: 100vh;
+}
+
+a{
+	text-decoration: none;
+	color:black;
+}
+
+a:hover{
+	color: orange;
+}
+
+.point{
+	color:blue;
+}
+
+.gray{
+	color:gray;
+	fill:gray;
+	
+}
+footer{
+	margin: 40px;
+}
+.center-layout-column .logo{
+	margin-bottom: 20px;
+}
+center-layout-column h3{
+	margin-bottom: 30px;
+}
+/* center-layout-column form{
+	border: 1px solid black;
+} */
+.divform{
+	border: 1px solid black;
+	padding: 10px;
+	justify-content: space-between;
+	
+}
+
+.form_border{
+	border: 1px solid black;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.text-leftzero{
+	width: 300px;
+	text-align: right;
+}
+
+.login-textright{
+	text-align: right;
+}
+
+
+
+
+
+
+
+
